@@ -1,0 +1,18 @@
+[project]
+name = "otterly-google-map"
+version = "0.1.0"
+description = "Google Map MCP Server for Otterly"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=2.10.5",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.11.0",
+]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.9.2",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+]
