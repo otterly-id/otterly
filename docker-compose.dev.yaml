@@ -1,0 +1,30 @@
+name: otterly
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - otterly
+
+  mcp-host:
+    build:
+      context: ./mcp-host
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./mcp-host:/app
+    networks:
+      - otterly
+    depends_on:
+      - redis
+
+volumes:
+  redis_data:
+
+networks:
+  otterly:
+    driver: bridge
