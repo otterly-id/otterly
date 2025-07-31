@@ -20,7 +20,7 @@ type MemStats struct {
 }
 
 type WrappedResponse struct {
-	utils.SuccessResponse
+	utils.SuccessResponse[MemStats]
 	Data MemStats `json:"data"`
 }
 
@@ -33,10 +33,12 @@ func byteToMb(b uint64) float64 {
 	return float64(b) / 1024 / 1024
 }
 
+// @Summary       Health Check
 // @Description   Check API health
+// @Tags          Health Check
+// @Accept        json
 // @Produce       json
 // @Success       200   {object} WrappedResponse
-// @Tags		  Health Check
 // @Router        /health-check [get]
 func healthCheck(w http.ResponseWriter, r *http.Request) {
 	var m runtime.MemStats

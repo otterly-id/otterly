@@ -6,31 +6,36 @@ import (
 	"net/http"
 )
 
-type SuccessResponse struct {
+type SuccessResponse[T any] struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
-	Data    any    `json:"data"`
+	Data    T      `json:"data,omitempty"`
 }
 
-type FailureResponse struct {
+type SuccessResponseWithoutData struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
-	Errors  any    `json:"errors"`
+}
+
+type FailureResponse[T any] struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
+	Errors  T      `json:"errors,omitempty"`
 }
 
 type ResponseOptions struct {
 	StatusCode int
 }
 
-func NewSuccessResponse(message string, data any) *SuccessResponse {
-	return &SuccessResponse{Success: true, Message: message, Data: data}
+func NewSuccessResponse[T any](message string, data T) *SuccessResponse[T] {
+	return &SuccessResponse[T]{Success: true, Message: message, Data: data}
 }
 
-func NewFailureResponse(message string, errors any) *FailureResponse {
-	return &FailureResponse{Success: false, Message: message, Errors: errors}
+func NewFailureResponse[T any](message string, errors T) *FailureResponse[T] {
+	return &FailureResponse[T]{Success: false, Message: message, Errors: errors}
 }
 
-func (s *SuccessResponse) Write(w http.ResponseWriter, opts *ResponseOptions) {
+func (s *SuccessResponse[T]) Write(w http.ResponseWriter, opts *ResponseOptions) {
 	var statusCode = 200
 
 	if opts != nil {
@@ -47,7 +52,7 @@ func (s *SuccessResponse) Write(w http.ResponseWriter, opts *ResponseOptions) {
 	}
 }
 
-func (f *FailureResponse) Write(w http.ResponseWriter, opts *ResponseOptions) {
+func (f *FailureResponse[T]) Write(w http.ResponseWriter, opts *ResponseOptions) {
 	var statusCode = 500
 
 	if opts != nil {

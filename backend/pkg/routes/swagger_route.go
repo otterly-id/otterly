@@ -16,13 +16,11 @@ func SwaggerRoute(router chi.Router) {
 				PageTitle: "Otterly API",
 			},
 			DarkMode: true,
+			Theme:    "moon",
 		})
 
 		if err != nil {
-			utils.NewFailureResponse(
-				"Failed to generate API reference HTML", err.Error()).Write(
-				w, &utils.ResponseOptions{StatusCode: http.StatusInternalServerError})
-
+			utils.NewFailureResponse("Failed to generate API reference HTML", err.Error()).Write(w, nil)
 			return
 		}
 
