@@ -15,6 +15,6 @@ func MiscRoutes(router chi.Router) {
 
 	router.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
 		utils.NewFailureResponse[interface{}]("Method not allowed", nil).Write(
-			w, &utils.ResponseOptions{StatusCode: http.StatusNotFound})
+			w, &utils.ResponseOptions{StatusCode: http.StatusMethodNotAllowed})
 	})
 }

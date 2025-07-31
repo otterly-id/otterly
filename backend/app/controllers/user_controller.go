@@ -60,14 +60,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	newUser.Password = string(hashedPassword)
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		errMessage := "Database connection failed"
 		logger.Error(errMessage, zap.String("error", err.Error()))
 		utils.NewFailureResponse(errMessage, err.Error()).Write(w, nil)
 		return
 	}
-	defer db.Close()
 
 	user, err := db.CreateUser(newUser)
 	if err != nil {
@@ -85,6 +84,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("User created successfully")
 	utils.NewSuccessResponse("User created successfully", user).Write(w, nil)
 }
 
@@ -101,14 +101,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 // @Router       /api/users [get]
 func GetUsers(w http.ResponseWriter, r *http.Request) {
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		errMessage := "Database connection failed"
 		logger.Error(errMessage, zap.String("error", err.Error()))
 		utils.NewFailureResponse(errMessage, err.Error()).Write(w, nil)
 		return
 	}
-	defer db.Close()
 
 	users, err := db.GetUsers()
 	if err != nil {
@@ -119,6 +118,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("Users found")
 	utils.NewSuccessResponse("Users found", users).Write(w, nil)
 }
 
@@ -144,14 +144,13 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		errMessage := "Database connection failed"
 		logger.Error(errMessage, zap.String("error", err.Error()))
 		utils.NewFailureResponse(errMessage, err.Error()).Write(w, nil)
 		return
 	}
-	defer db.Close()
 
 	user, err := db.GetUser(id)
 	if err != nil {
@@ -162,6 +161,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("User found")
 	utils.NewSuccessResponse("User found", user).Write(w, nil)
 }
 
@@ -209,14 +209,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		errMessage := "Database connection failed"
 		logger.Error(errMessage, zap.String("error", err.Error()))
 		utils.NewFailureResponse(errMessage, err.Error()).Write(w, nil)
 		return
 	}
-	defer db.Close()
 
 	user, err := db.UpdateUser(id, selectedUser)
 	if err != nil {
@@ -226,6 +225,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("User updated successfully")
 	utils.NewSuccessResponse("User updated successfully", user).Write(w, nil)
 }
 
@@ -251,14 +251,13 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		errMessage := "Database connection failed"
 		logger.Error(errMessage, zap.String("error", err.Error()))
 		utils.NewFailureResponse(errMessage, err.Error()).Write(w, nil)
 		return
 	}
-	defer db.Close()
 
 	if err := db.DeleteUser(id); err != nil {
 		errMessage := "User not found"
@@ -268,5 +267,6 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.NewSuccessResponse[interface{}]("User deleted successfully", nil).Write(w, nil)
+	logger.Info("User deleted successfully")
+	utils.NewSuccessResponseWithoutData("User deleted successfully").Write(w, nil)
 }

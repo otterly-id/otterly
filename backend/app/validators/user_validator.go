@@ -32,13 +32,6 @@ func UserValidator() *validator.Validate {
 		return regexp.MustCompile(`^[a-zA-Z\s]+$`).MatchString(fl.Field().String())
 	})
 
-	_ = v.RegisterValidation("email", func(fl validator.FieldLevel) bool {
-		field := fl.Field().String()
-		pattern := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-		matched, _ := regexp.MatchString(pattern, field)
-		return matched && len(field) <= 254
-	})
-
 	v.RegisterValidation("phone", func(fl validator.FieldLevel) bool {
 		field := fl.Field().String()
 		if field == "" {

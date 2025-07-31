@@ -2,8 +2,6 @@ package database
 
 import (
 	"fmt"
-	"os"
-	"strconv"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -12,27 +10,27 @@ import (
 )
 
 func PostgreSQLConnection() (*sqlx.DB, error) {
-	maxConn, _ := strconv.Atoi(os.Getenv("DB_MAX_CONNECTIONS"))
-	maxIdleConn, _ := strconv.Atoi(os.Getenv("DB_MAX_IDLE_CONNECTIONS"))
-	maxLifetimeConn, _ := strconv.Atoi(os.Getenv("DB_MAX_LIFETIME_CONNECTIONS"))
+	maxConn := utils.GetEnvAsInt("DB_MAX_CONNECTIONS", 25)
+	maxIdleConn := utils.GetEnvAsInt("DB_MAX_IDLE_CONNECTIONS", 5)
+	maxLifetimeConn := utils.GetEnvAsInt("DB_MAX_LIFETIME_CONNECTIONS", 300)
 
 	postgresConnURL, err := utils.ConnectionURLBuilder("neon")
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to build connection URL: %w", err)
 	}
 
 	db, err := sqlx.Connect("pgx", postgresConnURL)
 	if err != nil {
-		return nil, fmt.Errorf("error, not connected to database, %w", err)
+		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
 	db.SetMaxOpenConns(maxConn)
 	db.SetMaxIdleConns(maxIdleConn)
-	db.SetConnMaxLifetime(time.Duration(maxLifetimeConn))
+	db.SetConnMaxLifetime(time.Duration(maxLifetimeConn) * time.Second)
 
 	if err := db.Ping(); err != nil {
 		defer db.Close()
-		return nil, fmt.Errorf("error, not sent ping to database, %w", err)
+		return nil, fmt.Errorf("database ping failed: %w", err)
 	}
 
 	return db, nil

@@ -31,8 +31,29 @@ func NewSuccessResponse[T any](message string, data T) *SuccessResponse[T] {
 	return &SuccessResponse[T]{Success: true, Message: message, Data: data}
 }
 
+func NewSuccessResponseWithoutData(message string) *SuccessResponseWithoutData {
+	return &SuccessResponseWithoutData{Success: true, Message: message}
+}
+
 func NewFailureResponse[T any](message string, errors T) *FailureResponse[T] {
 	return &FailureResponse[T]{Success: false, Message: message, Errors: errors}
+}
+
+func (s *SuccessResponseWithoutData) Write(w http.ResponseWriter, opts *ResponseOptions) {
+	var statusCode = 200
+
+	if opts != nil {
+		statusCode = opts.StatusCode
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(statusCode)
+
+	err := json.NewEncoder(w).Encode(s)
+
+	if err != nil {
+		fmt.Fprintf(w, "{}")
+	}
 }
 
 func (s *SuccessResponse[T]) Write(w http.ResponseWriter, opts *ResponseOptions) {

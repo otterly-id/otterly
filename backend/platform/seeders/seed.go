@@ -29,7 +29,7 @@ func main() {
 		return
 	}
 
-	db, err := database.OpenDBConnection()
+	db, err := database.GetDBConnection()
 	if err != nil {
 		fmt.Printf("failed to open database connection: %v", err)
 		return
@@ -102,7 +102,7 @@ func execQuery(data Seed, db *database.Queries, fileName string) {
 				continue
 			}
 
-			value[passwordIndex] = hashedPassword
+			value[passwordIndex] = string(hashedPassword)
 		}
 
 		if _, err := db.Exec(sqlx.Rebind(sqlx.DOLLAR, query), value...); err != nil {
