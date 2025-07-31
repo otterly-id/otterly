@@ -9,6 +9,7 @@ import (
 type UserRole string
 
 const (
+	RoleAdmin UserRole = "ADMIN"
 	RoleUser  UserRole = "USER"
 	RoleOwner UserRole = "OWNER"
 )
@@ -36,37 +37,37 @@ type CreateUserRequest struct {
 }
 
 type CreateUserResponse struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	FullName    string    `json:"full_name"`
-	Email       string    `json:"email"`
-	PhoneNumber string    `json:"phone_number"`
-	Role        UserRole  `json:"role"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID          uuid.UUID `db:"id" json:"id"`
+	Name        string    `db:"name" json:"name"`
+	FullName    string    `db:"full_name" json:"full_name,omitempty"`
+	Email       string    `db:"email" json:"email"`
+	PhoneNumber string    `db:"phone_number" json:"phone_number,omitempty"`
+	Role        UserRole  `db:"role" json:"role"`
+	CreatedAt   time.Time `db:"created_at" json:"created_at"`
 }
 
 type UserResponse struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	FullName    string    `json:"full_name"`
-	Email       string    `json:"email"`
-	PhoneNumber string    `json:"phone_number"`
-	Role        UserRole  `json:"role"`
+	ID          uuid.UUID `db:"id" json:"id"`
+	Name        string    `db:"name" json:"name"`
+	FullName    string    `db:"full_name" json:"full_name"`
+	Email       string    `db:"email" json:"email"`
+	PhoneNumber string    `db:"phone_number" json:"phone_number"`
+	Role        UserRole  `db:"role" json:"role"`
 }
 
 type UpdateUserRequest struct {
-	Name        *string `json:"name" validate:"min=2,max=50,alpha_space"`
-	FullName    *string `json:"full_name" validate:"max=100"`
-	Email       *string `json:"email" validate:"email,max=254"`
-	PhoneNumber *string `json:"phone_number" validate:"max=20,phone"`
+	Name        *string `json:"name" validate:"omitempty,max=50,alpha_space"`
+	FullName    *string `json:"full_name" validate:"omitempty,max=100"`
+	Email       *string `json:"email" validate:"omitempty,email,max=254"`
+	PhoneNumber *string `json:"phone_number" validate:"omitempty,max=20,phone"`
 }
 
 type UpdateUserResponse struct {
-	ID          uuid.UUID `json:"id"`
-	Name        string    `json:"name"`
-	FullName    string    `json:"full_name"`
-	Email       string    `json:"email"`
-	PhoneNumber string    `json:"phone_number"`
-	Role        UserRole  `json:"role"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          uuid.UUID `db:"id" json:"id"`
+	Name        string    `db:"name" json:"name"`
+	FullName    string    `db:"full_name" json:"full_name,omitempty"`
+	Email       string    `db:"email" json:"email"`
+	PhoneNumber string    `db:"phone_number" json:"phone_number,omitempty"`
+	Role        UserRole  `db:"role" json:"role"`
+	UpdatedAt   string    `db:"updated_at" json:"updated_at"`
 }

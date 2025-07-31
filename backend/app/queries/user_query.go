@@ -17,9 +17,9 @@ func (q *UserQueries) CreateUser(u *models.CreateUserRequest) (models.CreateUser
 	var user models.CreateUserResponse
 
 	if err := q.QueryRowx(
-		`INSERT INTO users (name, full_name, email, password, phone_number, role, created_at, updated_at, deleted_at)
-         VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW(), NULL)
-         RETURNING id, name, full_name, email, phone_number, role, created_at, updated_at`,
+		`INSERT INTO users (name, full_name, email, password, phone_number, role)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id, name, full_name, email, phone_number, role`,
 		u.Name,
 		u.FullName,
 		u.Email,
@@ -36,7 +36,7 @@ func (q *UserQueries) CreateUser(u *models.CreateUserRequest) (models.CreateUser
 func (q *UserQueries) GetUsers() ([]models.UserResponse, error) {
 	var user []models.UserResponse
 
-	if err := q.Select(&user, `SELECT * FROM users WHERE deleted_at = null`); err != nil {
+	if err := q.Select(&user, `SELECT id, name, full_name, email, phone_number, role FROM users WHERE deleted_at IS NULL`); err != nil {
 		return []models.UserResponse{}, err
 	}
 
@@ -46,7 +46,7 @@ func (q *UserQueries) GetUsers() ([]models.UserResponse, error) {
 func (q *UserQueries) GetUser(id uuid.UUID) (models.UserResponse, error) {
 	var user models.UserResponse
 
-	if err := q.Get(&user, `SELECT * FROM users WHERE id = $1 AND deleted_at = null`, id); err != nil {
+	if err := q.Get(&user, `SELECT id, name, full_name, email, phone_number, role FROM users WHERE id = $1 AND deleted_at IS NULL`, id); err != nil {
 		return models.UserResponse{}, err
 	}
 
@@ -90,7 +90,7 @@ func (q *UserQueries) UpdateUser(id uuid.UUID, u *models.UpdateUserRequest) (mod
 	query := fmt.Sprintf(
 		`UPDATE users SET %s
          WHERE id = $1 AND deleted_at IS NULL
-         RETURNING id, name, full_name, email, phone_number, role, created_at, updated_at`,
+         RETURNING id, name, full_name, email, phone_number, role, updated_at`,
 		strings.Join(setParts, ", "))
 
 	var user models.UpdateUserResponse

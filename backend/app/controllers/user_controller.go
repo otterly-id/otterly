@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/otterly-id/otterly/backend/app/models"
 	"github.com/otterly-id/otterly/backend/app/validators"
@@ -22,6 +23,7 @@ var logger = utils.NewLogger()
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Param		 request body   models.CreateUserRequest true "Create user request"
 // @Success      200  {object}  utils.SuccessResponse[models.CreateUserResponse]
 // @Failure      400  {object}  utils.FailureResponse[string]
 // @Failure      404  {object}  utils.FailureResponse[string]
@@ -126,13 +128,14 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Param id 	 path string true "User ID"
 // @Success      200  {object}  utils.SuccessResponse[models.UserResponse]
 // @Failure      400  {object}  utils.FailureResponse[string]
 // @Failure      404  {object}  utils.FailureResponse[string]
 // @Failure      500  {object}  utils.FailureResponse[string]
 // @Router       /api/users/{id} [get]
 func GetUser(w http.ResponseWriter, r *http.Request) {
-	id, err := uuid.Parse(r.URL.Query().Get("id"))
+	id, err := uuid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
 		errMessage := "Invalid ID"
 		logger.Error(errMessage, zap.String("error", err.Error()))
@@ -168,13 +171,15 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Param id 	 path string true "User ID"
+// @Param		 request body   models.UpdateUserRequest true "Update user request"
 // @Success      200  {object}  utils.SuccessResponse[models.UpdateUserResponse]
 // @Failure      400  {object}  utils.FailureResponse[string]
 // @Failure      404  {object}  utils.FailureResponse[string]
 // @Failure      500  {object}  utils.FailureResponse[string]
 // @Router       /api/users/{id} [patch]
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	id, err := uuid.Parse(r.URL.Query().Get("id"))
+	id, err := uuid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
 		errMessage := "Invalid ID"
 		logger.Error(errMessage, zap.String("error", err.Error()))
@@ -230,13 +235,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Param id	 path string true "User ID"
 // @Success      200  {object}  utils.SuccessResponseWithoutData
 // @Failure      400  {object}  utils.FailureResponse[string]
 // @Failure      404  {object}  utils.FailureResponse[string]
 // @Failure      500  {object}  utils.FailureResponse[string]
 // @Router       /api/users/{id} [delete]
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
-	id, err := uuid.Parse(r.URL.Query().Get("id"))
+	id, err := uuid.Parse(chi.URLParam(r, "id"))
 	if err != nil {
 		errMessage := "Invalid ID"
 		logger.Error(errMessage, zap.String("error", err.Error()))

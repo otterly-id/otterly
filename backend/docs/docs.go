@@ -67,6 +67,17 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "Create User",
+                "parameters": [
+                    {
+                        "description": "Create user request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateUserRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -108,6 +119,15 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "Get User by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -147,6 +167,15 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -186,6 +215,24 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update user request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateUserRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -239,6 +286,46 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.CreateUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "role"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 254
+                },
+                "full_name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 8
+                },
+                "phone_number": {
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "USER",
+                        "OWNER"
+                    ]
+                }
+            }
+        },
         "models.CreateUserResponse": {
             "type": "object",
             "properties": {
@@ -262,6 +349,27 @@ const docTemplate = `{
                 },
                 "role": {
                     "$ref": "#/definitions/models.UserRole"
+                }
+            }
+        },
+        "models.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 254
+                },
+                "full_name": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "phone_number": {
+                    "type": "string",
+                    "maxLength": 20
                 }
             }
         },
@@ -317,10 +425,12 @@ const docTemplate = `{
         "models.UserRole": {
             "type": "string",
             "enum": [
+                "ADMIN",
                 "USER",
                 "OWNER"
             ],
             "x-enum-varnames": [
+                "RoleAdmin",
                 "RoleUser",
                 "RoleOwner"
             ]

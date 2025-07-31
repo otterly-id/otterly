@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/joho/godotenv"
 	"github.com/otterly-id/otterly/backend/pkg/configs"
 	"github.com/otterly-id/otterly/backend/pkg/routes"
 	"github.com/otterly-id/otterly/backend/pkg/utils"
@@ -14,6 +17,11 @@ import (
 // @description     Official Otterly API documentation.
 // @BasePath  /
 func main() {
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("no .env file found")
+		return
+	}
+
 	logger := zap.Must(zap.NewProduction())
 
 	defer logger.Sync()
