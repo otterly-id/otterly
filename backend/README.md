@@ -1,4 +1,4 @@
-# Otterly Backend Repository
+# Otterly - Backend
 
 ## 🔧 Requirement
 
@@ -6,8 +6,8 @@ Make sure [docker](https://docs.docker.com/engine/install/) installed on your 
 
 ## 🚀 Initial Setup
 
-- Clone the repository: `git clone https://github.com/otterly-id/otterly-backend`
-- Navigate: `cd otterly-backend`
+- Clone the repository: `git clone https://github.com/otterly-id/otterly`
+- Navigate: `cd otterly/backend`
 
 ## ⚙️ Environment Configuration
 
