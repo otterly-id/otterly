@@ -4,3 +4,4 @@
 
 - `./platform/database` folder with database configuration (by default, PostgreSQL)
 - `./platform/migrations` folder with migration files (used with [golang-migrate/migrate](https://github.com/golang-migrate/migrate) tool)
+- `./platform/seeders` folder with database seeders for populating initial data

@@ -73,12 +73,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "unique constraint") {
 			errMessage := "User with this email already exists"
 			logger.Error(errMessage, zap.String("error", err.Error()))
-			utils.NewFailureResponse(errMessage, err.Error()).Write(
+			utils.NewFailureResponse(errMessage, "A user with this email already exists").Write(
 				w, &utils.ResponseOptions{StatusCode: http.StatusConflict})
 		} else {
 			errMessage := "Failed to create user"
 			logger.Error(errMessage, zap.String("error", err.Error()))
-			utils.NewFailureResponse(errMessage, err.Error()).Write(
+			utils.NewFailureResponse(errMessage, "An unexpected error occurred while creating the user").Write(
 				w, nil)
 		}
 		return

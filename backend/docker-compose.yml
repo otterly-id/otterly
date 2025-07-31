@@ -1,6 +1,6 @@
 services:
-  otterly-backend:
-    container_name: backend
+  backend:
+    container_name: otterly-backend
     build:
       context: .
       dockerfile: Dockerfile

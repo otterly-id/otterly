@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -24,6 +25,11 @@ type Seed struct {
 }
 
 func main() {
+	stopOnError := flag.Bool("stop-on-error", false, "Stop the seeder immediately if an error occurs")
+	flag.Parse()
+
+	fmt.Println("Seeding database started")
+
 	if err := godotenv.Load(); err != nil {
 		fmt.Println("no .env file found")
 		return
@@ -55,20 +61,28 @@ func main() {
 		}
 
 		var data Seed
-
 		if err := json.Unmarshal(content, &data); err != nil {
 			fmt.Printf("error during unmarshalling file content from %s: %v\n", file.Name(), err)
 			continue
 		}
 
-		execQuery(data, db, file.Name())
+		insertedCount, err := execQuery(data, db.DB, file.Name(), *stopOnError)
+		if insertedCount > 0 {
+			fmt.Printf("File '%s': successfully inserted %d rows.\n", file.Name(), insertedCount)
+		}
+
+		if err != nil {
+			fmt.Printf("\nStopping seeder due to error: %v", err)
+			return
+		}
 	}
+
+	fmt.Println("Database seeded successfully")
 }
 
-func execQuery(data Seed, db *database.Queries, fileName string) {
+func execQuery(data Seed, db *sqlx.DB, fileName string, stopOnError bool) (int, error) {
 	if db == nil {
-		fmt.Printf("database connection is nil, cannot execute query for file: %s\n", fileName)
-		return
+		return 0, fmt.Errorf("database connection is nil for file: %s", fileName)
 	}
 
 	query := fmt.Sprintf(
@@ -88,27 +102,43 @@ func execQuery(data Seed, db *database.Queries, fileName string) {
 		}
 	}
 
+	successfulInserts := 0
 	for _, value := range data.Values {
 		if data.Table == "users" && passwordIndex != -1 {
 			password, ok := value[passwordIndex].(string)
 			if !ok {
-				fmt.Printf("password field is not a string, skipping row in file: %s\n", fileName)
+				err := fmt.Errorf("password field is not a string in file: %s", fileName)
+				if stopOnError {
+					return successfulInserts, err
+				}
+				fmt.Printf("%v, skipping row.\n", err)
 				continue
 			}
 
 			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 			if err != nil {
-				fmt.Printf("failed to hash password, skipping row in file %s: %v\n", fileName, err)
+				err := fmt.Errorf("failed to hash password in file %s: %v", fileName, err)
+				if stopOnError {
+					return successfulInserts, err
+				}
+				fmt.Printf("%v, skipping row.\n", err)
 				continue
 			}
-
 			value[passwordIndex] = string(hashedPassword)
 		}
 
 		if _, err := db.Exec(sqlx.Rebind(sqlx.DOLLAR, query), value...); err != nil {
-			fmt.Printf("error in running seeder file %s: %v\n", fileName, err)
+			err := fmt.Errorf("error inserting row from file %s: %v", fileName, err)
+			if stopOnError {
+				return successfulInserts, err
+			}
+			fmt.Println(err)
+		} else {
+			successfulInserts++
 		}
 	}
+
+	return successfulInserts, nil
 }
 
 func prepareInsertQuery(columns []string) string {
