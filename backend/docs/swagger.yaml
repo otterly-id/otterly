@@ -1,0 +1,45 @@
+basePath: /
+definitions:
+  routes.MemStats:
+    properties:
+      alloc:
+        type: number
+      date:
+        type: string
+      gc_cycle:
+        type: integer
+      gc_last:
+        type: integer
+      gc_next:
+        type: integer
+      sys:
+        type: number
+    type: object
+  routes.WrappedResponse:
+    properties:
+      data:
+        $ref: '#/definitions/routes.MemStats'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: Official Otterly API documentation.
+  title: Otterly API
+  version: "1.0"
+paths:
+  /health-check:
+    get:
+      description: Check API health
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/routes.WrappedResponse'
+      tags:
+      - Health Check
+swagger: "2.0"
