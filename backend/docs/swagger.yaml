@@ -1,5 +1,59 @@
 basePath: /
 definitions:
+  helpers.FailureResponse-string:
+    properties:
+      errors:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-array_models_UserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.UserResponse'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_CreateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.CreateUserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_UpdateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.UpdateUserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.UserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponseWithoutData:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
   models.CreateUserRequest:
     properties:
       email:
@@ -128,60 +182,6 @@ definitions:
       success:
         type: boolean
     type: object
-  utils.FailureResponse-string:
-    properties:
-      errors:
-        type: string
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  utils.SuccessResponse-array_models_UserResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/models.UserResponse'
-        type: array
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  utils.SuccessResponse-models_CreateUserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.CreateUserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  utils.SuccessResponse-models_UpdateUserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.UpdateUserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  utils.SuccessResponse-models_UserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.UserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  utils.SuccessResponseWithoutData:
-    properties:
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
 info:
   contact: {}
   description: Official Otterly API documentation.
@@ -199,19 +199,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.SuccessResponse-array_models_UserResponse'
+            $ref: '#/definitions/helpers.SuccessResponse-array_models_UserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
       summary: Get All Users
       tags:
       - Users
@@ -232,19 +232,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.SuccessResponse-models_CreateUserResponse'
+            $ref: '#/definitions/helpers.SuccessResponse-models_CreateUserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
       summary: Create User
       tags:
       - Users
@@ -265,19 +265,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.SuccessResponseWithoutData'
+            $ref: '#/definitions/helpers.SuccessResponseWithoutData'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
       summary: Delete User
       tags:
       - Users
@@ -297,19 +297,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.SuccessResponse-models_UserResponse'
+            $ref: '#/definitions/helpers.SuccessResponse-models_UserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
       summary: Get User by ID
       tags:
       - Users
@@ -335,19 +335,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/utils.SuccessResponse-models_UpdateUserResponse'
+            $ref: '#/definitions/helpers.SuccessResponse-models_UpdateUserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/utils.FailureResponse-string'
+            $ref: '#/definitions/helpers.FailureResponse-string'
       summary: Update User
       tags:
       - Users

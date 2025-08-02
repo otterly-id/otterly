@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -47,7 +48,11 @@ func ValidatorErrors(err error) []string {
 			message = fmt.Sprintf("%s is invalid", field)
 		}
 
-		errorMessages = append(errorMessages, message)
+		r := []rune(message)
+		r[0] = unicode.ToUpper(r[0])
+		capitalizedMsg := string(r)
+
+		errorMessages = append(errorMessages, capitalizedMsg)
 	}
 
 	return errorMessages

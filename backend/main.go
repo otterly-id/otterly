@@ -9,7 +9,6 @@ import (
 	"github.com/otterly-id/otterly/backend/pkg/configs"
 	"github.com/otterly-id/otterly/backend/pkg/routes"
 	"github.com/otterly-id/otterly/backend/pkg/utils"
-	"go.uber.org/zap"
 )
 
 // @title           Otterly API
@@ -22,7 +21,7 @@ func main() {
 		return
 	}
 
-	logger := zap.Must(zap.NewProduction())
+	logger := utils.NewLogger()
 
 	defer logger.Sync()
 
@@ -30,12 +29,12 @@ func main() {
 
 	router.Use(cors.Handler(configs.CORSConfig()))
 
-	routes.HealthCheckRoute(router)
-	routes.SwaggerRoute(router)
-	routes.MiscRoutes(router)
+	routes.HealthCheckRoute(router, logger)
+	routes.SwaggerRoute(router, logger)
+	routes.MiscRoutes(router, logger)
 
 	router.Route("/api", func(r chi.Router) {
-		routes.PublicRoutes(r)
+		routes.PublicRoutes(r, logger)
 	})
 
 	server := configs.ServerConfig(router)

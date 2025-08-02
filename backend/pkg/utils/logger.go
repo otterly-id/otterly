@@ -27,7 +27,8 @@ func NewLogger() *zap.Logger {
 			"stderr",
 		},
 		InitialFields: map[string]interface{}{
-			"pid": os.Getpid(),
+			"pid":     os.Getpid(),
+			"service": "otterly-backend",
 		},
 	}
 
