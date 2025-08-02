@@ -1,5 +1,163 @@
 basePath: /
 definitions:
+  helpers.FailureResponse-string:
+    properties:
+      errors:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-array_models_UserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.UserResponse'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_CreateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.CreateUserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_UpdateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.UpdateUserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponse-models_UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.UserResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  helpers.SuccessResponseWithoutData:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  models.CreateUserRequest:
+    properties:
+      email:
+        maxLength: 254
+        type: string
+      full_name:
+        maxLength: 100
+        type: string
+      name:
+        maxLength: 50
+        minLength: 2
+        type: string
+      password:
+        maxLength: 255
+        minLength: 8
+        type: string
+      phone_number:
+        maxLength: 20
+        type: string
+      role:
+        enum:
+        - USER
+        - OWNER
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - role
+    type: object
+  models.CreateUserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/models.UserRole'
+    type: object
+  models.UpdateUserRequest:
+    properties:
+      email:
+        maxLength: 254
+        type: string
+      full_name:
+        maxLength: 100
+        type: string
+      name:
+        maxLength: 50
+        type: string
+      phone_number:
+        maxLength: 20
+        type: string
+    type: object
+  models.UpdateUserResponse:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/models.UserRole'
+      updated_at:
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/models.UserRole'
+    type: object
+  models.UserRole:
+    enum:
+    - ADMIN
+    - USER
+    - OWNER
+    type: string
+    x-enum-varnames:
+    - RoleAdmin
+    - RoleUser
+    - RoleOwner
   routes.MemStats:
     properties:
       alloc:
@@ -30,8 +188,173 @@ info:
   title: Otterly API
   version: "1.0"
 paths:
+  /api/users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.SuccessResponse-array_models_UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+      summary: Get All Users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Add new user data.
+      parameters:
+      - description: Create user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.SuccessResponse-models_CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+      summary: Create User
+      tags:
+      - Users
+  /api/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove user data based on provided ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.SuccessResponseWithoutData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+      summary: Delete User
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: Get user data based on provided ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.SuccessResponse-models_UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+      summary: Get User by ID
+      tags:
+      - Users
+    patch:
+      consumes:
+      - application/json
+      description: Edit user data based on provided ID.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/helpers.SuccessResponse-models_UpdateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/helpers.FailureResponse-string'
+      summary: Update User
+      tags:
+      - Users
   /health-check:
     get:
+      consumes:
+      - application/json
       description: Check API health
       produces:
       - application/json
@@ -40,6 +363,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/routes.WrappedResponse'
+      summary: Health Check
       tags:
       - Health Check
 swagger: "2.0"

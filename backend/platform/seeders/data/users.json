@@ -1,0 +1,61 @@
+{
+	"table": "users",
+	"columns": [
+		"name",
+		"full_name",
+		"email",
+		"password",
+		"phone_number",
+		"role"
+	],
+	"values": [
+		[
+			"admin-1",
+			"Admin 1",
+			"admin1@mail.com",
+			"Admin1",
+			"+62101213145",
+			"ADMIN"
+		],
+		[
+			"owner-1",
+			"Owner 1",
+			"owner1@mail.com",
+			"Owner1",
+			"+62123612345",
+			"OWNER"
+		],
+		[
+			"owner-2",
+			"Owner 2",
+			"owner2@mail.com",
+			"Owner2",
+			"+62156723489",
+			"OWNER"
+		],
+		[
+			"dummy-1",
+			"Dummy User 1",
+			"dummy1@mail.com",
+			"Dummy1",
+			"+62123456789",
+			"USER"
+		],
+		[
+			"dummy-2",
+			"Dummy User 2",
+			"dummy2@mail.com",
+			"Dummy2",
+			"+62134567892",
+			"USER"
+		],
+		[
+			"dummy-3",
+			"Dummy User 3",
+			"dummy3@mail.com",
+			"Dummy3",
+			"+62145678923",
+			"USER"
+		]
+	]
+}
