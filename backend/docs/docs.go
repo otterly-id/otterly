@@ -32,25 +32,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/helpers.SuccessResponse-array_models_UserResponse"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-array_github_com_otterly-id_otterly_backend_internal_api_models_UserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     }
                 }
@@ -74,7 +74,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateUserRequest"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.CreateUserRequest"
                         }
                     }
                 ],
@@ -82,25 +82,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/helpers.SuccessResponse-models_CreateUserResponse"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_CreateUserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     }
                 }
@@ -132,25 +132,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/helpers.SuccessResponse-models_UserResponse"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     }
                 }
@@ -180,25 +180,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/helpers.SuccessResponseWithoutData"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponseWithoutData"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     }
                 }
@@ -229,7 +229,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.UpdateUserRequest"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserRequest"
                         }
                     }
                 ],
@@ -237,48 +237,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/helpers.SuccessResponse-models_UpdateUserResponse"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UpdateUserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/helpers.FailureResponse-string"
-                        }
-                    }
-                }
-            }
-        },
-        "/health-check": {
-            "get": {
-                "description": "Check API health",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health Check"
-                ],
-                "summary": "Health Check",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/routes.WrappedResponse"
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
                         }
                     }
                 }
@@ -286,91 +263,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "helpers.FailureResponse-string": {
-            "type": "object",
-            "properties": {
-                "errors": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "helpers.SuccessResponse-array_models_UserResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.UserResponse"
-                    }
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "helpers.SuccessResponse-models_CreateUserResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/models.CreateUserResponse"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "helpers.SuccessResponse-models_UpdateUserResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/models.UpdateUserResponse"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "helpers.SuccessResponse-models_UserResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/models.UserResponse"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "helpers.SuccessResponseWithoutData": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "models.CreateUserRequest": {
+        "github_com_otterly-id_otterly_backend_internal_api_models.CreateUserRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -410,33 +303,74 @@ const docTemplate = `{
                 }
             }
         },
-        "models.CreateUserResponse": {
+        "github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse": {
             "type": "object",
             "properties": {
-                "created_at": {
+                "errors": {},
+                "message": {
                     "type": "string"
                 },
-                "email": {
-                    "type": "string"
-                },
-                "full_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "role": {
-                    "$ref": "#/definitions/models.UserRole"
+                "success": {
+                    "type": "boolean"
                 }
             }
         },
-        "models.UpdateUserRequest": {
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-array_github_com_otterly-id_otterly_backend_internal_api_models_UserResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_CreateUserResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UpdateUserResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponseWithoutData": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserRequest": {
             "type": "object",
             "properties": {
                 "email": {
@@ -454,105 +388,6 @@ const docTemplate = `{
                 "phone_number": {
                     "type": "string",
                     "maxLength": 20
-                }
-            }
-        },
-        "models.UpdateUserResponse": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "full_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "role": {
-                    "$ref": "#/definitions/models.UserRole"
-                },
-                "updated_at": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.UserResponse": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "full_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "role": {
-                    "$ref": "#/definitions/models.UserRole"
-                }
-            }
-        },
-        "models.UserRole": {
-            "type": "string",
-            "enum": [
-                "ADMIN",
-                "USER",
-                "OWNER"
-            ],
-            "x-enum-varnames": [
-                "RoleAdmin",
-                "RoleUser",
-                "RoleOwner"
-            ]
-        },
-        "routes.MemStats": {
-            "type": "object",
-            "properties": {
-                "alloc": {
-                    "type": "number"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "gc_cycle": {
-                    "type": "integer"
-                },
-                "gc_last": {
-                    "type": "integer"
-                },
-                "gc_next": {
-                    "type": "integer"
-                },
-                "sys": {
-                    "type": "number"
-                }
-            }
-        },
-        "routes.WrappedResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "$ref": "#/definitions/routes.MemStats"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "success": {
-                    "type": "boolean"
                 }
             }
         }
