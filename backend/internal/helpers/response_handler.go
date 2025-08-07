@@ -92,6 +92,44 @@ func (rh *ResponseHandler) JWTError(w http.ResponseWriter, r *http.Request, err 
 	utils.FailureResponse(w, http.StatusUnauthorized, "Authentication failed", "Invalid or expired token")
 }
 
+func (rh *ResponseHandler) HashPasswordError(w http.ResponseWriter, r *http.Request, err error) {
+	rh.Log.Error("Failed to hash password",
+		zap.String("url", r.URL.String()),
+		zap.String("method", r.Method),
+		zap.Error(err))
+	utils.FailureResponse(w, http.StatusInternalServerError, "Failed to hash password", "An error occurred while hashing the password")
+}
+
+func (rh *ResponseHandler) AuthenticationRequiredError(w http.ResponseWriter, r *http.Request) {
+	rh.Log.Error("Authentication required",
+		zap.String("url", r.URL.String()),
+		zap.String("method", r.Method))
+	utils.FailureResponse(w, http.StatusUnauthorized, "Authentication required", "You must be authenticated to access this resource")
+}
+
+func (rh *ResponseHandler) AuthenticationFailedError(w http.ResponseWriter, r *http.Request, err error) {
+	rh.Log.Error("Authentication failed",
+		zap.String("url", r.URL.String()),
+		zap.String("method", r.Method),
+		zap.Error(err))
+	utils.FailureResponse(w, http.StatusUnauthorized, "Authentication failed", "Invalid credentials provided")
+}
+
+func (rh *ResponseHandler) TokenGenerationError(w http.ResponseWriter, r *http.Request, err error) {
+	rh.Log.Error("Failed to generate token",
+		zap.String("url", r.URL.String()),
+		zap.String("method", r.Method),
+		zap.Error(err))
+	utils.FailureResponse(w, http.StatusInternalServerError, "Failed to generate token", "An error occurred while generating the authentication token")
+}
+
+func (rh *ResponseHandler) InsufficientPermissionsError(w http.ResponseWriter, r *http.Request) {
+	rh.Log.Error("Insufficient permissions",
+		zap.String("url", r.URL.String()),
+		zap.String("method", r.Method))
+	utils.FailureResponse(w, http.StatusForbidden, "Insufficient permissions", "You do not have permission to access this resource")
+}
+
 func (rh *ResponseHandler) CreateItemError(w http.ResponseWriter, r *http.Request, err error, resource string) {
 	if strings.Contains(err.Error(), "duplicate key") || strings.Contains(err.Error(), "unique constraint") {
 		rh.DuplicateKeyError(w, r, err, resource)

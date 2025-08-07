@@ -9,14 +9,218 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/auth/login": {
+            "post": {
+                "description": "Login using email and password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Login request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_RoleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Logout the current authenticated user by removing the JWT cookie.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponseWithoutData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/me": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Get current authenticated user data.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get Authenticated User",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "description": "Register new user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "Register request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_RegisterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
                 "description": "Get all users data.",
                 "consumes": [
                     "application/json"
@@ -56,6 +260,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
                 "description": "Add new user data.",
                 "consumes": [
                     "application/json"
@@ -108,6 +317,11 @@ const docTemplate = `{
         },
         "/api/users/{id}": {
             "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
                 "description": "Get user data based on provided ID",
                 "consumes": [
                     "application/json"
@@ -156,6 +370,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
                 "description": "Remove user data based on provided ID.",
                 "consumes": [
                     "application/json"
@@ -204,6 +423,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
                 "description": "Edit user data based on provided ID.",
                 "consumes": [
                     "application/json"
@@ -303,6 +527,32 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_otterly-id_otterly_backend_internal_api_models.CreateUserResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserRole"
+                }
+            }
+        },
         "github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse": {
             "type": "object",
             "properties": {
@@ -315,9 +565,78 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_otterly-id_otterly_backend_internal_api_models.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "maxLength": 254
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 2
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.RegisterResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.RoleResponse": {
+            "type": "object",
+            "properties": {
+                "role": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserRole"
+                }
+            }
+        },
         "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-array_github_com_otterly-id_otterly_backend_internal_api_models_UserResponse": {
             "type": "object",
             "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserResponse"
+                    }
+                },
                 "message": {
                     "type": "string"
                 },
@@ -329,6 +648,37 @@ const docTemplate = `{
         "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_CreateUserResponse": {
             "type": "object",
             "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.CreateUserResponse"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_RegisterResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.RegisterResponse"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_RoleResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.RoleResponse"
+                },
                 "message": {
                     "type": "string"
                 },
@@ -340,6 +690,9 @@ const docTemplate = `{
         "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UpdateUserResponse": {
             "type": "object",
             "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserResponse"
+                },
                 "message": {
                     "type": "string"
                 },
@@ -351,6 +704,9 @@ const docTemplate = `{
         "github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse": {
             "type": "object",
             "properties": {
+                "data": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserResponse"
+                },
                 "message": {
                     "type": "string"
                 },
@@ -390,14 +746,106 @@ const docTemplate = `{
                     "maxLength": 20
                 }
             }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserRole"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.UserResponse": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "role": {
+                    "$ref": "#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UserRole"
+                }
+            }
+        },
+        "github_com_otterly-id_otterly_backend_internal_api_models.UserRole": {
+            "type": "string",
+            "enum": [
+                "ADMIN",
+                "USER",
+                "OWNER"
+            ],
+            "x-enum-varnames": [
+                "RoleAdmin",
+                "RoleUser",
+                "RoleOwner"
+            ]
         }
-    }
+    },
+    "securityDefinitions": {
+        "CookieAuth": {
+            "description": "JWT token stored in httpOnly cookie for authentication",
+            "type": "apiKey",
+            "name": "otterly_token",
+            "in": "cookie"
+        }
+    },
+    "tags": [
+        {
+            "description": "Authentication operations",
+            "name": "Auth"
+        },
+        {
+            "description": "User management operations",
+            "name": "Users"
+        },
+        {
+            "description": "Admin-only operations",
+            "name": "Admin"
+        },
+        {
+            "description": "Owner-only operations",
+            "name": "Owner"
+        },
+        {
+            "description": "Management operations (Admin or Owner)",
+            "name": "Management"
+        }
+    ]
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Otterly API",
