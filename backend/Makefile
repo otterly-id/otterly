@@ -1,21 +1,16 @@
 include .env
 
-APP_NAME = server
-BUILD_DIR = $(PWD)/build
-MIGRATIONS_FOLDER = $(PWD)/platform/migrations
+MIGRATIONS_FOLDER = $(PWD)/db/migrations
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 
 swag:
-	swag init
+	swag init -g ./cmd/main.go
 
 run:
 	air -c ".air.toml"
 
-seed:
-	go run ./platform/seeders/seed.go
-
 migrate.add:
-	migrate create -ext sql -dir platform/migrations -seq $(ARGS)
+	migrate create -ext sql -dir $(MIGRATIONS_FOLDER) -seq $(ARGS)
 
 migrate.up:
 	migrate -path $(MIGRATIONS_FOLDER) -database $(DB_URL) up
@@ -29,7 +24,8 @@ migrate.down:
 migrate.force:
 	migrate -path $(MIGRATIONS_FOLDER) -database $(DB_URL) force $(version)
 
-docker.run: docker.network swag docker.compose-up
+docker.run:
+	docker.network swag docker.compose-up
 
 docker.compose-up:
 	docker compose up -d --build

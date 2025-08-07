@@ -1,60 +1,6 @@
 basePath: /
 definitions:
-  helpers.FailureResponse-string:
-    properties:
-      errors:
-        type: string
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  helpers.SuccessResponse-array_models_UserResponse:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/models.UserResponse'
-        type: array
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  helpers.SuccessResponse-models_CreateUserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.CreateUserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  helpers.SuccessResponse-models_UpdateUserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.UpdateUserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  helpers.SuccessResponse-models_UserResponse:
-    properties:
-      data:
-        $ref: '#/definitions/models.UserResponse'
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  helpers.SuccessResponseWithoutData:
-    properties:
-      message:
-        type: string
-      success:
-        type: boolean
-    type: object
-  models.CreateUserRequest:
+  github_com_otterly-id_otterly_backend_internal_api_models.CreateUserRequest:
     properties:
       email:
         maxLength: 254
@@ -84,24 +30,50 @@ definitions:
     - password
     - role
     type: object
-  models.CreateUserResponse:
+  github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse:
     properties:
-      created_at:
+      errors: {}
+      message:
         type: string
-      email:
-        type: string
-      full_name:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      phone_number:
-        type: string
-      role:
-        $ref: '#/definitions/models.UserRole'
+      success:
+        type: boolean
     type: object
-  models.UpdateUserRequest:
+  ? github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-array_github_com_otterly-id_otterly_backend_internal_api_models_UserResponse
+  : properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  ? github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_CreateUserResponse
+  : properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  ? github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UpdateUserResponse
+  : properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  ? github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse
+  : properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponseWithoutData:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserRequest:
     properties:
       email:
         maxLength: 254
@@ -115,72 +87,6 @@ definitions:
       phone_number:
         maxLength: 20
         type: string
-    type: object
-  models.UpdateUserResponse:
-    properties:
-      email:
-        type: string
-      full_name:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      phone_number:
-        type: string
-      role:
-        $ref: '#/definitions/models.UserRole'
-      updated_at:
-        type: string
-    type: object
-  models.UserResponse:
-    properties:
-      email:
-        type: string
-      full_name:
-        type: string
-      id:
-        type: string
-      name:
-        type: string
-      phone_number:
-        type: string
-      role:
-        $ref: '#/definitions/models.UserRole'
-    type: object
-  models.UserRole:
-    enum:
-    - ADMIN
-    - USER
-    - OWNER
-    type: string
-    x-enum-varnames:
-    - RoleAdmin
-    - RoleUser
-    - RoleOwner
-  routes.MemStats:
-    properties:
-      alloc:
-        type: number
-      date:
-        type: string
-      gc_cycle:
-        type: integer
-      gc_last:
-        type: integer
-      gc_next:
-        type: integer
-      sys:
-        type: number
-    type: object
-  routes.WrappedResponse:
-    properties:
-      data:
-        $ref: '#/definitions/routes.MemStats'
-      message:
-        type: string
-      success:
-        type: boolean
     type: object
 info:
   contact: {}
@@ -199,19 +105,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/helpers.SuccessResponse-array_models_UserResponse'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-array_github_com_otterly-id_otterly_backend_internal_api_models_UserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
       summary: Get All Users
       tags:
       - Users
@@ -225,26 +131,26 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.CreateUserRequest'
+          $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.CreateUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/helpers.SuccessResponse-models_CreateUserResponse'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_CreateUserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
       summary: Create User
       tags:
       - Users
@@ -265,19 +171,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/helpers.SuccessResponseWithoutData'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponseWithoutData'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
       summary: Delete User
       tags:
       - Users
@@ -297,19 +203,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/helpers.SuccessResponse-models_UserResponse'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
       summary: Get User by ID
       tags:
       - Users
@@ -328,42 +234,27 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.UpdateUserRequest'
+          $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.UpdateUserRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/helpers.SuccessResponse-models_UpdateUserResponse'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.SuccessResponse-github_com_otterly-id_otterly_backend_internal_api_models_UpdateUserResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/helpers.FailureResponse-string'
+            $ref: '#/definitions/github_com_otterly-id_otterly_backend_internal_api_models.FailureResponse'
       summary: Update User
       tags:
       - Users
-  /health-check:
-    get:
-      consumes:
-      - application/json
-      description: Check API health
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/routes.WrappedResponse'
-      summary: Health Check
-      tags:
-      - Health Check
 swagger: "2.0"
