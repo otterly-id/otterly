@@ -10,8 +10,8 @@ import (
 	"github.com/otterly-id/otterly/backend/db"
 	"github.com/otterly-id/otterly/backend/internal/api/models"
 	"github.com/otterly-id/otterly/backend/internal/helpers"
+	"github.com/otterly-id/otterly/backend/internal/utils"
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type UserController struct {
@@ -36,6 +36,7 @@ func NewUserController(logger *zap.Logger, validator *validator.Validate, db *db
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Security     CookieAuth
 // @Param        request body   models.CreateUserRequest true "Create user request"
 // @Success      200  {object}  models.SuccessResponse[models.CreateUserResponse]
 // @Failure      400  {object}  models.FailureResponse[string]
@@ -55,9 +56,9 @@ func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
+	hashedPassword, err := utils.HashPassword(newUser.Password)
 	if err != nil {
-		uc.ResponseHandler.CustomError(w, r, http.StatusInternalServerError, "Failed to hash password", err)
+		uc.ResponseHandler.HashPasswordError(w, r, err)
 		return
 	}
 	newUser.Password = string(hashedPassword)
@@ -77,6 +78,7 @@ func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Security     CookieAuth
 // @Success      200  {object}  models.SuccessResponse[[]models.UserResponse]
 // @Failure      400  {object}  models.FailureResponse[string]
 // @Failure      404  {object}  models.FailureResponse[string]
@@ -98,6 +100,7 @@ func (uc *UserController) GetUsers(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Security     CookieAuth
 // @Param id 	 path string true "User ID"
 // @Success      200  {object}  models.SuccessResponse[models.UserResponse]
 // @Failure      400  {object}  models.FailureResponse[string]
@@ -132,6 +135,7 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Security     CookieAuth
 // @Param id 	 path string true "User ID"
 // @Param		 request body   models.UpdateUserRequest true "Update user request"
 // @Success      200  {object}  models.SuccessResponse[models.UpdateUserResponse]
@@ -179,6 +183,7 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Tags         Users
 // @Accept       json
 // @Produce      json
+// @Security     CookieAuth
 // @Param id	 path string true "User ID"
 // @Success      200  {object}  models.SuccessResponseWithoutData
 // @Failure      400  {object}  models.FailureResponse[string]

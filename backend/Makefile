@@ -4,7 +4,7 @@ MIGRATIONS_FOLDER = $(PWD)/db/migrations
 ARGS = $(filter-out $@,$(MAKECMDGOALS))
 
 swag:
-	swag init -g ./cmd/main.go
+	swag init -g ./cmd/main.go --parseDependency
 
 run:
 	air -c ".air.toml"

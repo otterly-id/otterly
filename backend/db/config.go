@@ -18,6 +18,7 @@ var (
 
 type Queries struct {
 	*queries.UserQueries
+	*queries.AuthQueries
 }
 
 func PostgreSQLConnection(config *viper.Viper) (*sqlx.DB, error) {
@@ -60,6 +61,7 @@ func GetDBConnection(config *viper.Viper) (*Queries, error) {
 
 	dbInstance = &Queries{
 		UserQueries: &queries.UserQueries{DB: db},
+		AuthQueries: &queries.AuthQueries{DB: db},
 	}
 
 	return dbInstance, nil

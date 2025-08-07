@@ -9,6 +9,8 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/otterly-id/otterly/backend/internal/api/controllers"
+	"github.com/otterly-id/otterly/backend/internal/api/models"
+	"github.com/otterly-id/otterly/backend/internal/delivery/middlewares"
 	"github.com/otterly-id/otterly/backend/internal/helpers"
 	"go.uber.org/zap"
 )
@@ -18,23 +20,42 @@ type RouteConfig struct {
 	Log             *zap.Logger
 	ResponseHandler *helpers.ResponseHandler
 	UserController  *controllers.UserController
+	AuthController  *controllers.AuthController
+	AuthMiddleware  *middlewares.AuthMiddleware
 }
 
 func (c *RouteConfig) Setup() {
-	c.SetupGuestRoute()
+	c.SetupAPIRoutes()
 	c.SetupHealthCheckRoute()
 	c.SetupDefaultRoute()
 	c.SetupSwaggerRoute()
 }
 
-func (c *RouteConfig) SetupGuestRoute() {
+func (c *RouteConfig) SetupAPIRoutes() {
 	c.App.Route("/api", func(r chi.Router) {
+		r.Route("/auth", func(r chi.Router) {
+			r.Post("/register", c.AuthController.Register)
+			r.Post("/login", c.AuthController.Login)
+
+			r.Group(func(r chi.Router) {
+				r.Use(c.AuthMiddleware.Authenticate)
+				r.Get("/me", c.AuthController.GetAuthenticatedUser)
+				r.Post("/logout", c.AuthController.Logout)
+			})
+		})
+
 		r.Route("/users", func(r chi.Router) {
-			r.Post("/", c.UserController.CreateUser)
+			r.Use(c.AuthMiddleware.Authenticate)
+
 			r.Get("/", c.UserController.GetUsers)
 			r.Get("/{id}", c.UserController.GetUser)
-			r.Patch("/{id}", c.UserController.UpdateUser)
-			r.Delete("/{id}", c.UserController.DeleteUser)
+
+			r.Group(func(r chi.Router) {
+				r.Use(c.AuthMiddleware.RequireRole(models.RoleAdmin))
+				r.Post("/", c.UserController.CreateUser)
+				r.Patch("/{id}", c.UserController.UpdateUser)
+				r.Delete("/{id}", c.UserController.DeleteUser)
+			})
 		})
 	})
 }
