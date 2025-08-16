@@ -14,7 +14,7 @@ func (q *AuthQueries) Register(u *models.RegisterRequest) (models.RegisterRespon
 
 	if err := q.QueryRowx(
 		`INSERT INTO users (name, email, password_hash, role)
-         VALUES ($1, $2, $3, $4, $5, 'USER')
+         VALUES ($1, $2, $3, 'USER')
          RETURNING id, name, email, created_at`,
 		u.Name,
 		u.Email,
@@ -29,7 +29,7 @@ func (q *AuthQueries) Register(u *models.RegisterRequest) (models.RegisterRespon
 func (q *AuthQueries) Login(email string) (models.LoginResponse, error) {
 	var user models.LoginResponse
 
-	if err := q.Get(&user, `SELECT id, password, email, role FROM users WHERE email = $1 AND deleted_at IS NULL`, email); err != nil {
+	if err := q.Get(&user, `SELECT id, password_hash, email, role FROM users WHERE email = $1 AND deleted_at IS NULL`, email); err != nil {
 		return models.LoginResponse{}, err
 	}
 

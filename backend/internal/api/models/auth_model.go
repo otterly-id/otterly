@@ -22,7 +22,7 @@ type LoginRequest struct {
 
 type LoginResponse struct {
 	ID       uuid.UUID `db:"id" json:"id"`
-	Password string    `db:"password" json:"-"`
+	Password string    `db:"password_hash" json:"-"`
 	Email    string    `db:"email" json:"email"`
 	Role     UserRole  `db:"role" json:"role"`
 }
