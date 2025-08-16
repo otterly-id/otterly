@@ -3,7 +3,7 @@ package models
 type SuccessResponse[T any] struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
-	Data    T      `json:"data,omitempty" swaggerignore:"true"`
+	Data    T      `json:"data,omitempty"`
 }
 
 type FailureResponse struct {
